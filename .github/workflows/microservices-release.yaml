@@ -38,6 +38,14 @@ jobs:
           if [[ "${BRANCH}" =~ 'release-' ]]; then
             echo "VERSION=${BRANCH#'release-'}" >> $GITHUB_ENV
           fi
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          install: true
+          version: latest
       - name: Push images
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
